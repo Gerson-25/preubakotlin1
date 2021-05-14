@@ -1,4 +1,4 @@
-package com.example.preubakotlin1
+package com.example.preubakotlin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

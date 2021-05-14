@@ -1,11 +1,11 @@
-package com.example.preubakotlin1.model
+package com.example.preubakotlin.model
 
-import com.example.preubakotlin1.util.BASE_URL
+import com.example.preubakotlin.util.BASE_URL
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object DogService {
+object PlatformService {
     private val client = OkHttpClient.Builder().build()
 
     private fun getRetrofitBuilder(): Retrofit {
@@ -16,7 +16,7 @@ object DogService {
             .build()
     }
 
-    fun getDogApi(): DogApi{
-        return getRetrofitBuilder().create(DogApi::class.java)
+    fun getDogApi(): PlatformApi{
+        return getRetrofitBuilder().create(PlatformApi::class.java)
     }
 }

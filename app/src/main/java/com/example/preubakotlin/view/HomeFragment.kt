@@ -1,17 +1,23 @@
-package com.example.preubakotlin1.view
+package com.example.preubakotlin.view
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.preubakotlin1.R
-import com.example.preubakotlin1.databinding.HomeFragmentBinding
-import com.example.preubakotlin1.viewmodel.HomeViewModel
+import com.example.preubakotlin.R
+import com.example.preubakotlin.databinding.HomeFragmentBinding
+import com.example.preubakotlin.util.API_KEY
+import com.example.preubakotlin.viewmodel.HomeViewModel
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import org.json.JSONObject
 
 class HomeFragment : Fragment() {
 
@@ -34,23 +40,19 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        binding.loadImageBtn.setOnClickListener {
-            viewModel.getRandomDog()
-        }
+        val jsonObject = JSONObject()
+        jsonObject.put("api_key","a534925a6a295361930b6b9fff675bd0")
+        val requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString())
 
-        viewModel.getRandomDog()
-        viewModel.dog.observe(viewLifecycleOwner, Observer { dog ->
-            binding.dogPicture.apply {
-                Glide.with(this)
-                    .load(dog.image)
-                    .centerCrop()
-                    .into(this)
-            }
+        viewModel.getRandomDog(API_KEY)
+        viewModel.platformsList.observe(viewLifecycleOwner, Observer { platformsList ->
+            binding.platformsRecyclerview.layoutManager = LinearLayoutManager(context)
+            binding.platformsRecyclerview.adapter = PlatformRvAdapter(platformsList)
         })
 
-        viewModel.error.observe(viewLifecycleOwner, Observer {errorMessage ->
+        /*viewModel.error.observe(viewLifecycleOwner, Observer {errorMessage ->
             binding.errorMessage.text = errorMessage
-        })
+        })*/
 
         viewModel.loading.observe(viewLifecycleOwner, Observer {isLoading ->
             if (isLoading){

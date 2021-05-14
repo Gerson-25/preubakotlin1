@@ -1,4 +1,4 @@
-package com.example.preubakotlin1
+package com.example.preubakotlin
 
 import org.junit.Test
 
